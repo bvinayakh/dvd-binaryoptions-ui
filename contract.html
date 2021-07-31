@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Options Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="node_modules/web3/dist/web3.min.js"></script>
+  </head>
+
+  <body>
+    <b>BinaryOptions</b>
+    <br />
+    <button onclick="getLong();">Total Long</button>
+    <button onclick="getShort();">Total Short</button>
+    <br /><br />
+    Status: <span id="status">Loading...</span>
+
+    <script type="text/javascript">
+      var contractAddress = "0xf134Bd8EA9149CF30D551F9C42c31856dF4442a4";
+      var ABI = JSON.parse(
+        '[{"inputs":[{"internalType":"uint256","name":"_contractExpiryTime","type":"uint256"},{"internalType":"uint256","name":"_strikePrice","type":"uint256"},{"internalType":"uint256","name":"_bidPeriod","type":"uint256"},{"internalType":"address","name":"_aggregator","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkFulfilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"message1","type":"string"},{"indexed":false,"internalType":"uint256","name":"currentTime","type":"uint256"},{"indexed":false,"internalType":"string","name":"message2","type":"string"},{"indexed":false,"internalType":"uint256","name":"expiryTime","type":"uint256"}],"name":"announce","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"message","type":"string"}],"name":"logString","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"logUint","type":"event"},{"inputs":[],"name":"announceResult","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getBidPeriodLimit","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractExpiry","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNegative","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPositive","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"aggregator","type":"address"}],"name":"getPrice","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getStrikePrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"tokenName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenSymbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"voteNegative","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"votePositive","outputs":[],"stateMutability":"payable","type":"function"}]'
+      );
+      async function loadWeb3() {
+        if (window.ethereum) {
+          window.web3 = new Web3(window.ethereum);
+          window.ethereum.enable();
+        }
+      }
+
+      async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        console.log("Smart Contract Connected Successfully");
+        // updateStatus("Ready!");
+      }
+
+      function updateStatus(status) {
+        const statusEl = document.getElementById("status");
+        statusEl.innerHTML = status;
+      }
+
+      async function loadContract() {
+        return await new window.web3.eth.Contract(ABI, contractAddress);
+      }
+
+      async function getLong() {
+        const positive = await window.contract.methods.getPositive().call();
+        updateStatus("Total Longs on the BinaryOption: " + positive);
+      }
+
+      async function getShort() {
+        const negative = await window.contract.methods.getNegative().call();
+        updateStatus("Total Shorts on the BinaryOption: " + negative);
+      }
+
+      async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+      }
+
+      load();
+    </script>
+  </body>
+</html>

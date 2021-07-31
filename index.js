@@ -1,16 +1,14 @@
 const Web3 = require("web3");
 const abiJSON =
-  '[{"inputs":[],"name":"announceResult","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_requestId","type":"bytes32"},{"internalType":"uint256","name":"_payment","type":"uint256"},{"internalType":"bytes4","name":"_callbackFunctionId","type":"bytes4"},{"internalType":"uint256","name":"_expiration","type":"uint256"}],"name":"cancelRequest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkFulfilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"id","type":"bytes32"}],"name":"ChainlinkRequested","type":"event"},{"inputs":[{"internalType":"bytes32","name":"_requestId","type":"bytes32"},{"internalType":"uint256","name":"_price","type":"uint256"}],"name":"fulfill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getAPIResult","outputs":[{"internalType":"bytes32","name":"requestId","type":"bytes32"}],"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"status","type":"string"}],"name":"log","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"message","type":"string"}],"name":"logString","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"logUint","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"bool","name":"status","type":"bool"}],"name":"logging","type":"event"},{"inputs":[{"internalType":"uint256","name":"_criteria","type":"uint256"}],"name":"setCriteria","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"_paused","type":"bool"}],"name":"setPaused","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"voteNegative","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"votePositive","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"withdrawLink","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"},{"inputs":[],"name":"criteria","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNegative","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPositive","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isPaused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestPausedTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenSymbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]';
-
+  '[{"inputs":[{"internalType":"contract IERC20","name":"_dvdToken","type":"address"},{"internalType":"uint256","name":"_contractExpiryTime","type":"uint256"},{"internalType":"uint256","name":"_strikePrice","type":"uint256"},{"internalType":"uint256","name":"_bidPeriod","type":"uint256"},{"internalType":"address","name":"_aggregator","type":"address"},{"internalType":"string","name":"_pair","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"biddingAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"bids","type":"uint256"},{"indexed":false,"internalType":"int256","name":"amount","type":"int256"}],"name":"Bid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"strikePrice","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bidPeriod","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"expiry","type":"uint256"},{"indexed":false,"internalType":"address","name":"oracleAggregatorAddress","type":"address"},{"indexed":false,"internalType":"string","name":"assetPair","type":"string"}],"name":"Deployment","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"payerAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Paid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"oraclePrice","type":"uint256"}],"name":"PriceFeed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"strike","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"actual","type":"uint256"}],"name":"ResultLong","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"strike","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"actual","type":"uint256"}],"name":"ResultShort","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"winner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdraw","type":"event"},{"inputs":[{"internalType":"address","name":"_toAdd","type":"address"}],"name":"addAuthorized","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"announceResult","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"authorized","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256","name":"_bids","type":"uint256"}],"name":"bidLong","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256","name":"_bids","type":"uint256"}],"name":"bidShort","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getBidPeriodLimit","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContract","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractDVDBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractExpiry","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"getDVDBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLongs","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getOracleAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getOraclePrice","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPair","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"aggregator","type":"address"}],"name":"getPrice","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getPriceAtExpiry","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getShorts","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getStrikePrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"getUserBids","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"getUserLongs","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"getUserShorts","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isAdminEnabled","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isPaused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_toRemove","type":"address"}],"name":"removeAuthorized","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"value","type":"bool"}],"name":"setAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bool","name":"pause","type":"bool"}],"name":"setPause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}]';
+const { projectId, contractAddress } = require("./secrets.json");
 const abi = JSON.parse(abiJSON);
 
-document.addEventListener("DOMContentLoaded", onDocumentLoad);
+window.addEventListener("load", onDocumentLoad);
+// document.addEventListener("DOMContentLoaded", onDocumentLoad);
 function onDocumentLoad() {
   DApp.init();
 }
-
-const contractAddress = "0xC75dDD8fc504C2d78CF56d2Da71E765b54C4E495";
-
 const DApp = {
   web3: null,
   contracts: {},
@@ -22,10 +20,6 @@ const DApp = {
 
   initWeb3: async function () {
     if (typeof window.ethereum !== "undefined") {
-      // New web3 provider
-      // As per EIP1102 and EIP1193
-      // Ref: https://eips.ethereum.org/EIPS/eip-1102
-      // Ref: https://eips.ethereum.org/EIPS/eip-1193
       try {
         // Request account access if needed
         const accounts = await window.ethereum.request({
@@ -63,7 +57,7 @@ const DApp = {
   updateAccounts: async function (accounts) {
     const firstUpdate = !(DApp.accounts && DApp.accounts[0]);
     DApp.accounts = accounts || (await DApp.web3.eth.getAccounts());
-    console.log("updateAccounts", accounts[0]);
+    document.getElementById("wallet").innerHTML = accounts[0];
     if (!firstUpdate) {
       DApp.render();
     }
@@ -71,23 +65,8 @@ const DApp = {
 
   initContract: async function () {
     let networkId = await DApp.web3.eth.net.getId();
-    console.log("networkId", networkId);
-
-    // let deployedNetwork = mySmartContractArtefact.networks[networkId];
-    // if (!deployedNetwork) {
-    //   console.error(
-    //     "No contract deployed on the network that you are connected. Please switch networks."
-    //   );
-    //   return;
-    // }
-    // console.log("deployedNetwork", deployedNetwork);
-
-    // DApp.contracts.MySmartContract = new DApp.web3.eth.Contract(
-    //   '[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"voteNegative","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"participant","type":"address"}],"name":"votePositive","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"announceResult","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNegative","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPositive","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]',
-    //   deployedNetwork.address
-    // );
-
-    DApp.contracts.mycontract = new DApp.web3.eth.Contract(
+    document.getElementById("nwid").innerHTML = networkId;
+    DApp.contracts.binaryoptions = new DApp.web3.eth.Contract(
       abi,
       contractAddress
     );
@@ -95,30 +74,22 @@ const DApp = {
   },
 
   render: async function () {
-    // show spinner before loading data from smart contract
-    // TODO
-    // set or refresh any event listeners
-    // update DOM to render account address where relevant
-    // TODO using DApp.accounts[0]
-    // retrieve data from smart contract and render it
-    // TODO using DApp.contracts.MySmartContract
-    // Hide spinner after loading and rendering data from smart contract
-    //this.positive();
-    this.total();
+    //function loaded at page load
+    this.information();
   },
 
   positive: function (addr) {
-    DApp.contracts.mycontract.methods
-      .votePositive(addr)
+    DApp.contracts.binaryoptions.methods
+      .getContractExpiry()
       .call()
       .then(function (info) {
         console.log("info: ", info);
-        document.getElementById("lastInfo").innerHTML = info;
+        document.getElementById("clicked").innerHTML = info;
       });
   },
 
   negative: function (addr) {
-    DApp.contracts.mycontract.methods
+    DApp.contracts.binaryoptions.methods
       .voteNegative(addr)
       .call()
       .then(function (info) {
@@ -127,13 +98,120 @@ const DApp = {
       });
   },
 
-  total: function () {
-    DApp.contracts.mycontract.methods
-      .getTotal()
+  information: function () {
+    DApp.contracts.binaryoptions.methods
+      .getContractExpiry()
       .call()
       .then(function (info) {
-        console.log("total: ", info);
-        document.getElementById("totalparticipants").innerHTML = info;
+        var a = new Date(info * 1000);
+        var months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time =
+          date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
+        document.getElementById("expiry").innerHTML = time;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getStrikePrice()
+      .call()
+      .then(function (info) {
+        document.getElementById("strike").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getShorts()
+      .call()
+      .then(function (info) {
+        document.getElementById("shorts").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getLongs()
+      .call()
+      .then(function (info) {
+        document.getElementById("longs").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getContract()
+      .call()
+      .then(function (info) {
+        document.getElementById("contract").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getPair()
+      .call()
+      .then(function (info) {
+        document.getElementById("asset").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getDVDBalance(DApp.accounts[0])
+      .call()
+      .then(function (info) {
+        document.getElementById("bid").innerHTML = info / 10000000000000;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getOwner()
+      .call()
+      .then(function (info) {
+        document.getElementById("owner").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getUserShorts(DApp.accounts[0])
+      .call()
+      .then(function (info) {
+        document.getElementById("usershorts").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getUserLongs(DApp.accounts[0])
+      .call()
+      .then(function (info) {
+        document.getElementById("userlongs").innerHTML = info;
+      });
+    DApp.contracts.binaryoptions.methods
+      .getBidPeriodLimit()
+      .call()
+      .then(function (info) {
+        var a = new Date(info * 1000);
+        var months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time =
+          date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
+        document.getElementById("bidlimit").innerHTML = time;
       });
   },
 };
+
+module.exports = { test: function () {} };

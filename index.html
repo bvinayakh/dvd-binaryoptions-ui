@@ -8,55 +8,102 @@
       rel="stylesheet"
       type="text/css"
     />
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./node_modules/web3/dist/web3.min.js"></script>
     <script src="./indexb.js"></script>
   </head>
 
   <body class="container">
     <h1 class="page-header">Binary Options</h1>
-
-    <div class="row">
-      <div>
-        <h3 class="sub-header">Price of Ethereum above 4000</h3>
-        <form class="form-inline" role="form">
-          <div class="form-group">
-            <table>
-              <tr>
-                <!--<td><label for="newInfo">Info:</label> </td>-->
-                <td>
-                  <!--<input class="form-control" id="newInfo">-->
-                  <a id="positive" href="#" class="btn btn-primary">Yes</a>
-                  <a id="negative" href="#" class="btn btn-primary">No</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <!--<a href="#" onclick="registerSetInfo()" class="btn btn-primary">Set</a>-->
-        </form>
-      </div>
-    </div>
-
-    <div class="row">
-      <div>
-        <h3 class="sub-header">Total Participants</h3>
-        <form class="form-inline" role="form">
-          <a id="total" href="#" class="btn btn-primary">Total Participants</a>
-          <div class="form-group">
-            <table>
-              <tr>
-                <!--<td>Info:</td>-->
-                <td>
-                  <label id="totalparticipants">
-                </td>
-              </tr>
-            </table>
-          </div>
-        </form>
-      </div>
-    </div>
+    <table>
+      <tr aria-colspan="2">
+        <td>Wallet: <label id="wallet"></label></td>
+      </tr>
+      <tr aria-colspan="2">
+        <td>Contract: <label id="contract"></label></td>
+      </tr>
+      <tr aria-colspan="2">
+        <td>Owner: <label id="owner"></label></td>
+      </tr>
+      <tr aria-colspan="2">
+        <td>Asset Pair: <label id="asset"></label></td>
+      </tr>
+      <tr aria-colspan="2">
+        <td>ETH Network ID: <label id="nwid"></label></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px">Expiry: <label id="expiry"></label></td>
+        <td style="padding: 5px">Longs: <label id="longs"></label></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px">Strike: <label id="strike"></label></td>
+        <td style="padding: 5px">Shorts: <label id="shorts"></label></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px" colspan="2">
+          Bidding/Participation Windows Ends by: <label id="bidlimit"></label>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 5px">
+          DVD Tokens Available: <label id="bid"></label>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 5px">Shorts: <label id="usershorts"></label></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px">Longs: <label id="userlongs"></label></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px" colspan="2">
+          Clicked <label id="test"></label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a id="short" href="#" class="btn btn-primary" onclick="short()"
+            >Short</a
+          >
+          <a id="long" href="#" class="btn btn-primary" onclick="long()"
+            >Long</a
+          >
+        </td>
+      </tr>
+    </table>
     <script>
-      $("#total").click(function(){alert("click")})
+      function short() {
+        $.ajax({
+          url: "/short",
+          type: "GET",
+          async: false,
+          success: function (data) {
+            console.log(data);
+            document.getElementById("test").innerHTML = data;
+          },
+        });
+      }
+      function long() {
+        $.ajax({
+          url: "/long",
+          type: "GET",
+          async: false,
+          success: function (data) {
+            console.log(data);
+            document.getElementById("test").innerHTML = data;
+          },
+        });
+      }
     </script>
+    <!--<div class="row">
+      <div>
+        <form class="form-inline" role="form">
+          <div class="form-group">
+            <table></table>
+            <button type="submit" class="btn btn-primary">Sell</button>
+          </div>
+        </form>
+      </div>
+    </div>-->
   </body>
 </html>
